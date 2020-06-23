@@ -11,9 +11,9 @@ OBJS =	Climate.o Constants.o csv_file.o GenusGroups.o Input.o IO_Utils.o      \
 
 LIBS =
 
-F90 =  ifort
+F90 =  gfortran
 
-DBG = -CB -g -traceback -fp-model strict -warn unused
+FCFLAGS = -CB -g -traceback -fp-model strict -warn unused
 #OPT = -g -traceback -O2 -axcore-avx2 -xavx -align array64byte -ipo 
 
 F90FLAGS = $(DBG) $(OPT)

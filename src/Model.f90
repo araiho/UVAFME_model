@@ -486,7 +486,7 @@ contains
  			else if (year .gt. 0 .and. year .lt. 9) then
  				site%aridity_base = site%aridity_base + min(rain/pet, 1.0)
  			else if (year .eq. 9) then
- 				site%aridity_base = (site%ridity_base + min(rain/pet, 1.0))/10.0
+ 				site%aridity_base = (site%aridity_base + min(rain/pet, 1.0))/10.0
  			endif
  		end if
  		site%aridity = min(rain/pet, 1.0)
@@ -1218,7 +1218,7 @@ contains
 								!get most limiting growth factor
 								snum = site%plots(ip)%trees(it)%stressor
 
-								if (fire_survive .eq. .false.) then
+								if (fire_survive .eqv. .false.) then
 
                                     !died by fire, fire consumes some of each
                                       !litter class. also calculate N
@@ -1285,8 +1285,8 @@ contains
 									fan2 = fan2 +                              &
 										burn*litter_params(lc, 2)*(1 - N_cons)
 
-								else if (growth_survive .eq. .false. .or.      &
-                                    age_survive .eq. .false.) then
+								else if (growth_survive .eqv. .false. .or.      &
+                                    age_survive .eqv. .false.) then
 
                                     !died from growth/age-related stress, all
                                       !litter goes into soil accumulate biomass
@@ -1456,8 +1456,8 @@ contains
 								!get most limiting growth factor
 								snum = site%plots(ip)%trees(it)%stressor
 
-								if (growth_survive .eq. .false. .or.           &
-                                    age_survive .eq. .false.) then
+								if (growth_survive .eqv. .false. .or.           &
+                                    age_survive .eqv. .false.) then
 
 									site%plots(ip)%d_type(snum) =              &
                                         site%plots(ip)%d_type(snum) +          &
@@ -1503,7 +1503,7 @@ contains
 											leaf_bm/0.45
 									end if
 
-								else if (wind_survive .eq. .false.) then
+								else if (wind_survive .eqv. .false.) then
 
                                     !died by windthrow, add to windthrow mort
 									  !markers
@@ -1648,8 +1648,8 @@ contains
 							!get most limiting growth factor
 							snum = site%plots(ip)%trees(it)%stressor
 
-							if (growth_survive .eq. .false. .or. age_survive   &
-                                .eq. .false.) then
+							if (growth_survive .eqv. .false. .or. age_survive   &
+                                .eqv. .false.) then
 
 								site%plots(ip)%d_type(snum) =                  &
                                     site%plots(ip)%d_type(snum) +              &
@@ -1862,7 +1862,7 @@ contains
                             site%plots(ip)%seedbank(is)*                      &
                             site%species(is)%fc_fire
 
-                        if (.not. site%plots(ip)%fire) then
+                        if (1 /= site%plots(ip)%fire) then
 
 						    !put seeds into seedling bank if enough regrowth
 						    if (regrowth(is) .ge. growth_min) then

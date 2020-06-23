@@ -434,7 +434,7 @@ contains
 			fkill = .false.
 		endif
 
-		if (fkill .eq. .true.) then
+		if (fkill .eqv. .true.) then
 			f_survive = .false.
 		else
 			f_survive = .true.

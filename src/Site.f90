@@ -142,7 +142,7 @@ contains
 		self%fire_prob = self%fire_prob/1000.0
 		self%wind_prob = self%wind_prob/1000.0
 		self%leaf_area_ind = 1.0
-        self%pc_germ = .false.
+        self%pc_germ = 0
 
 		!read in climate data
 		call read_climate(self%site_id, tmin, tmax, prcp)
@@ -336,6 +336,7 @@ contains
 		real, dimension(numplots)    :: drydays_up, drydays_b
 		real, dimension(numplots)    :: flooddays, active, org, availn
 		real, dimension(numplots)    :: wldays, wilt_days
+		logical, dimension(numplots) :: fire
 
 		real                         :: aet_mn, aet_sd
 		real                         :: drydays_up_mn

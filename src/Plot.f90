@@ -116,7 +116,7 @@ contains
 			self%species(n) = species(n)
 		enddo
 
-		self%cells(:,:) = .false.
+		self%cells(:,:) = 0
 		self%numtrees = 0
 		self%num_dead = 0
 		self%fire = 0
