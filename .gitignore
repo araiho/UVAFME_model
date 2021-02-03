@@ -1,5 +1,5 @@
 .DS_Store
 src/*mod
 src/*o
-src/*exe
-*exe
+testing/*
+users_manual/*
