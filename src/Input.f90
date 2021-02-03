@@ -762,9 +762,12 @@ contains
 		real                                       :: seed_num
 		real                                       :: sprout_num
 		real                                       :: arfa_0, g
+		real                                       :: l1_perm_tol
+		real                                       :: l2_perm_tol
 		logical                                    :: conifer
 		logical                                    :: layering
 		integer                                    :: num_all_species
+		
 
 		!the species file has a header line
 		num_all_species = count_records(splist, 1)
@@ -823,7 +826,10 @@ contains
             recr_age,                                                          &
             seed_surv,                                                         &
             seedling_lg,                                                       &
-            unique_id
+            l1_perm_tol,								                                       &
+            l2_perm_tol,								                                       &
+            unique_id            							                                 
+
 
 			if (leaf_type == 0) then
 				conifer = .false.
@@ -837,14 +843,14 @@ contains
 				layering = .true.
 			end if
 
-			call initialize_species(species_data(lc), lc, genus_name,          &
+			call initialize_species(species_data(lc), lc, genus_name,        &
 				taxonomic_name, unique_id, common_name, genus_id, shade_tol,   &
 				lownutr_tol, stress_tol, age_tol, dry_tol, flood_tol,          &
 				perm_tol, org_tol, bark_thick, fire_regen, max_age, max_diam,  &
 				max_ht, wood_bulk_dens, rootdepth, leafdiam_a, leafarea_c,     &
 				deg_day_min, deg_day_opt, deg_day_max, seedling_lg, invader,   &
 				seed_num, sprout_num, layering, seed_surv, arfa_0, g, conifer, &
-				litter_class, recr_age)
+				litter_class, recr_age, l1_perm_tol, l2_perm_tol)
 
 		enddo
 

@@ -747,7 +747,8 @@ contains
 					site%plots(ip)%trees(it)%stressor = stress_cat
 
                     !calculate permafrost effect
-                    call perm_rsp(site%plots(ip)%trees(it)%perm_tol,           &
+                    call perm_rsp(site%plots(ip)%trees(it)%perm_tol,                &
+                        site%plots(ip)%trees(it)%l1_perm_tol, site%plots(ip)%trees(it)%l2_perm_tol,          &
                         site%plots(ip)%soil%active, perm_resp(it))
                     !perm_resp(it) = 1.0
 
@@ -1790,7 +1791,8 @@ contains
                         site%plots(ip)%dry_days_upper_layer,                   &
 						site%plots(ip)%dry_days_base_layer)
 					call flood_rsp(site%species(k), site%plots(ip)%wl_days)
-					call perm_rsp(site%species(k)%perm_tol,                    &
+					call perm_rsp(site%species(k)%perm_tol,                &
+					              site%plots(ip)%trees(it)%l1_perm_tol, site%plots(ip)%trees(it)%l2_perm_tol,                    &
                         site%plots(ip)%soil%active, perm_resp(k))
 				end do
 

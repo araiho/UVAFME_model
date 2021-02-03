@@ -48,6 +48,8 @@ module Species
      real                       :: arfa_0, g
      real                       :: fc_fire, fc_wind
      real                       :: fc_degday, fc_drought, fc_flood
+     real                       :: l1_perm_tol
+     real                       :: l2_perm_tol
      logical                    :: conifer, fire_kill
      logical                    :: layering
   end type SpeciesData
@@ -76,7 +78,7 @@ contains
 								deg_day_opt, deg_day_max, seedling_lg,         &
 								invader, seed_num, sprout_num, layering,       &
 								seed_surv, arfa_0, g, conifer, litter_class,   &
-								recr_age)
+								recr_age, l1_perm_tol, l2_perm_tol)
 		!initializes species instances
 		!Author: Katherine Holcomb, 2012 v. 1.0
 		!Inputs/Outputs:
@@ -151,6 +153,8 @@ contains
 		real,                      intent(in)     :: seed_num
 		real,                      intent(in)     :: sprout_num
 		real,                      intent(in)     :: arfa_0, g
+		real,                      intent(in)     :: l1_perm_tol
+		real,                      intent(in)     :: l2_perm_tol
 		logical,                   intent(in)     :: conifer, layering
 
 		real, dimension(5)                        :: ss, adjust
@@ -190,6 +194,8 @@ contains
         self%arfa_0         = arfa_0
         self%litter_class   = litter_class
         self%recr_age       = recr_age
+        self%l1_perm_tol    = l1_perm_tol
+        self%l2_perm_tol    = l2_perm_tol
 
 		!adjustments
         self%leafarea_c = leafarea_c/hec_to_m2
@@ -263,6 +269,8 @@ contains
         self%arfa_0         = species_data%arfa_0
         self%g              = species_data%g
         self%recr_age       = species_data%recr_age
+        self%l1_perm_tol    = species_data%l1_perm_tol
+        self%l2_perm_tol    = species_data%l2_perm_tol
 
 	end subroutine copy_species
 
@@ -484,36 +492,36 @@ contains
 
 	!:.........................................................................:
 
-	subroutine perm_rsp(p_tol, amlt, resp)
+	subroutine perm_rsp(p_tol, l1_p_tol, l2_p_tol, amlt, resp)
 		!calculates species-level response to active layer thickness
 		  !modified from Bonan (1989)
 		!Author: Adrianna Foster 2018 v. 1.0
 		!Inputs:
 		!	p_tol:  species permafrost tolerance (1: tolerant; 2: intolerant)
+		!	l1_p_tol: tolerant species growth response at low active layer depths
+		!	l2_p_tol: intolerant species growth response at low active layer depths
 		!	amlt:   active layer depth (m)
 		!Inputs:
 		!	resp:   growth response to permafrost (0-1)
 
 		integer, intent(in)  :: p_tol
+		real,    intent(in)  :: l1_p_tol
+		real,    intent(in)  :: l2_p_tol
 		real,    intent(in)  :: amlt
 		real,    intent(out) :: resp
 
 		real                 :: y
 
 
-		if (amlt .le. 0.6) then
+		if (amlt .le. 1.0) then
 			if (p_tol .eq. 1) then
-				!y = 1.28*amlt
-				y = 0.9*amlt
+				!y = l1_p_tol*amlt
+				y = (1*.001)/(.001 + (1-.001)*exp(-l1_p_tol*amlt))
 			else
-				y = 0.494*amlt
+				!y = 0.494*amlt
+				y = (1*.001)/(.001 + (1-.001)*exp(-l2_p_tol*amlt))
 			end if
-		else if (amlt .gt. 0.6 .and. amlt .le. 1.0) then
-			if (p_tol .eq. 1) then
-				y = 1.0
-			else
-				y = 0.8*amlt
-			end if
+		
 		else if (amlt .gt. 1.0) then
 			y = 1.0
 		end if
