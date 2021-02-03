@@ -260,7 +260,7 @@ contains
          ! Find warmest month of this year
          do i = 1, NTEMPS
              tmean_max = max(tmean_max, tmean(i))
-             if (tmean_max .eqv. tmean(i)) warmest_month = i
+             if (tmean_max .eq. tmean(i)) warmest_month = i
          end do
 
         ! Get tmax and tmin of warmest month
@@ -326,13 +326,13 @@ contains
         fcum = 0.0
         do m = 12, 1, -1
             if (fdd(m, 1) .gt. 0.0) fcum = fcum + fdd(m, 1)
-            if (fdd(m, 1) .eqv. 0.0) exit
+            if (fdd(m, 1) .eq. 0.0) exit
         end do
         do m = 1, 12
-            if (tdd(m, 1) .eqv. 0.0) tcum = 0.0
+            if (tdd(m, 1) .eq. 0.0) tcum = 0.0
             tcum = tcum + tdd(m, 1)
             tdd(m, 2) = tcum
-            if (fdd(m, 1) .eqv. 0.0) fcum = 0.0
+            if (fdd(m, 1) .eq. 0.0) fcum = 0.0
             fcum = fcum + fdd(m, 1)
             fdd(m, 2) = fcum
          end do
@@ -384,7 +384,7 @@ contains
                      site%plots(ip)%soil%fc(l))
 
                 ! Set soil to fully saturated at onset of year
-                if (l .eqv. 1) then
+                if (l .eq. 1) then
                      site%plots(ip)%soil%wc(l) =                                &
                         site%plots(ip)%soil%z_drain(l)*H2O_D/                  &
                          site%plots(ip)%soil%O_bulk_dens
@@ -479,7 +479,7 @@ contains
 
             ! Convert drydays, flooddays, and wpdays to proportion of growing
             ! season
-            if (growdays .eqv. 0) then
+            if (growdays .eq. 0) then
                 drydays = 0.0
                 flooddays = 0.0
                 wpdays = 0.0
@@ -520,11 +520,11 @@ contains
         !yearly aridity
 
         if (year .le. 9) then
-            if (year .eqv. 0) then
+            if (year .eq. 0) then
                  site%aridity_base = min(rain/pet, 1.0)
             else if (year .gt. 0 .and. year .lt. 9) then
                  site%aridity_base = site%aridity_base + min(rain/pet, 1.0)
-            else if (year .eqv. 9) then
+            else if (year .eq. 9) then
                  site%aridity_base = (site%aridity_base + min(rain/pet, 1.0))/10.0
             endif
         end if
@@ -584,7 +584,7 @@ contains
             ! Get number of trees on plot
             ntrees = site%plots(ip)%numtrees
 
-            if (ntrees .eqv. 0) then
+            if (ntrees .eq. 0) then
 
                 ! Full light conditions and no nutrient pressure
                 site%plots(ip)%con_light = 1.0
@@ -622,7 +622,7 @@ contains
                     tla_adj = tla/float(cl)
 
                     ! Fill temporary arrays with leaf area/biomass
-                    if (site%plots(ip)%trees(it)%conifer) then
+                    if (site%plots(ip)%trees(it)%conifer == 1) then
                         ! Leaf experienced by evergreens reduced for deciduous
                         ! plants. This accounts for part of each year without
                         ! decid. leaves
@@ -760,7 +760,7 @@ contains
                 call drought_rsp(site%species(is), site%plots(ip)%dry_days,    &
                     site%plots(ip)%fc_drought(is))
                 call perm_rsp(site%species(is)%perm_tol,                       &
-                    site%plots(ip)%species(is)%l1_perm_tol, site%plots(ip)%species(is)%l2_perm_tol,
+                    site%species(is)%l1_perm_tol, site%species(is)%l2_perm_tol, &
                     site%plots(ip)%soil%active, site%plots(ip)%fc_perm(is))
             end do
 
@@ -805,7 +805,7 @@ contains
                     bleaf(it) = site%plots(ip)%trees(it)%leaf_bm
 
                     ! Calculate shading effect on tree
-                    if (site%plots(ip)%trees(it)%conifer) then
+                    if (site%plots(ip)%trees(it)%conifer == 1) then
                         shade(it) = light_rsp(site%species(is),                &
                             site%plots(ip)%con_light(h))
                         can_shade(it) = light_rsp(site%species(is),            &
@@ -938,7 +938,7 @@ contains
                     N_used = N_used + dbiomC/STEM_C_N
 
                     ! Update NPP and N_used from leaf biomass
-                    if (site%plots(ip)%trees(it)%conifer) then
+                    if (site%plots(ip)%trees(it)%conifer == 1) then
 
                         ! Conifers don't have to put all of their leaf biomass
                         ! back on
@@ -1886,7 +1886,7 @@ contains
                             site%plots(ip)%fc_nutr(is),                        &
                             site%plots(ip)%fc_drought(is))
 
-                        if (site%plots(ip)%numtrees .eqv. 0) then
+                        if (site%plots(ip)%numtrees .eq. 0) then
                             ! We don't have to worry about shade stress
                             regstress(is) = regstress(is)*                     &
                                 site%plots(ip)%fc_perm(is)
@@ -1946,7 +1946,7 @@ contains
 
                         ! We don't allow seedling regeneration the first
                         ! year of a fire
-                        firecheck: if (.not. site%plots(ip)%fire) then
+                        firecheck: if (site%plots(ip)%fire == 0) then
 
                             ! Put seeds into seedling bank if envstress is
                             ! high enough
@@ -2145,7 +2145,7 @@ contains
                                 ht = max(int(site%plots(ip)%trees(it)%forska_ht), 1)
 
                                 !calculate shading effect on tree
-                                if (site%plots(ip)%trees(it)%conifer) then
+                                if (site%plots(ip)%trees(it)%conifer == 1) then
                                     shade = light_rsp(site%species(is),        &
                                         site%plots(ip)%con_light(ht))
                                 else

@@ -447,7 +447,7 @@ contains
         real,               intent(out) :: fc_drought ! Growth response to drought (0-1)
 
 
-        if (self%drought_tol .eqv. 1) then
+        if (self%drought_tol .eq. 1) then
 
             ! Very drought tolerant - give extra boost
             if (self%conifer) then
@@ -490,7 +490,7 @@ contains
         real :: y ! Growth response to permafrost (0-1)
 
        if (amlt .le. 1.0) then
-			if (p_tol .eqv. 1) then
+			if (p_tol .eq. 1) then
 				y = (1*.001)/(.001 + (1-.001)*exp(-l1_p_tol*amlt))
 			else
 				y = (1*.001)/(.001 + (1-.001)*exp(-l2_p_tol*amlt))

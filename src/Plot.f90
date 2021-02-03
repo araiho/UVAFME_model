@@ -122,7 +122,7 @@ contains
         allocate(self%mature(numspecies))
 
         ! Set to starting values
-        self%cells = .false.
+        self%cells = 0
         self%numtrees = 0
         self%num_dead = 0
         self%fire = 0
@@ -435,7 +435,7 @@ contains
                     n(is) = n(is) + 1.0
 
                     ! Get C:N ratio
-                    if (self%trees(it)%conifer) then
+                    if (self%trees(it)%conifer == 1) then
                         l_cn = CON_LEAF_C_N
                     else
                         l_cn = DEC_LEAF_C_N
@@ -578,7 +578,7 @@ contains
                     n(is) = n(is) + 1
 
                     ! Get C:N ratio
-                    if (self%deadtrees(it)%conifer) then
+                    if (self%deadtrees(it)%conifer == 1) then
                         l_cn = CON_LEAF_C_N
                     else
                         l_cn = DEC_LEAF_C_N

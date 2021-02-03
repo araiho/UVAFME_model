@@ -18,7 +18,6 @@ module Input
 
 contains
 
-
     !:.........................................................................:
 
     subroutine initialize_inputFiles(filelist)
@@ -887,8 +886,8 @@ contains
         real                           :: s, g            ! Growth parameters
         real                           :: beta            ! Growth parameter
         real                           :: dbh_min         ! Mininum DBH growth (cm)
-	real                           :: l1_perm_tol
-	real                           :: l2_perm_tol
+        real                           :: l1_perm_tol     ! Tolerant growth response to perm
+	real                           :: l2_perm_tol    ! Intolerant growth response to perm
         logical                        :: conifer         ! Is species a conifer?
         logical                        :: layering        ! Can species reproduce by layering?
         integer                        :: num_all_species ! Total number of species in file
@@ -950,10 +949,10 @@ contains
             org_tol,                                                           &
             recr_age,                                                          &
             seed_surv,                                                         &
-            seedling_lg,                                                       &
+            seedling_surv,                                                     &
             l1_perm_tol,						       &
             l2_perm_tol,						       &
-            unique_id            							                                 
+            unique_id
 
             ! Set conifer and layering
             if (leaf_type == 0) then
@@ -969,14 +968,15 @@ contains
             end if
 
             ! Initialize the species object
-            call initialize_species(species_data(lc), lc, genus_name,        &
-				taxonomic_name, unique_id, common_name, shade_tol,   &
-				lownutr_tol, stress_tol, age_tol, dry_tol, flood_tol,          &
-				perm_tol, org_tol, bark_thick, fire_regen, max_age, max_diam,  &
-				max_ht, wood_bulk_dens, rootdepth, leafdiam_a, leafarea_c,     &
-				deg_day_min, deg_day_opt, deg_day_max, seedling_surv, invader,   &
-				seed_num, sprout_num, layering, seed_surv, s, g, beta, conifer, &
-				litter_class, recr_age, dbh_min, l1_perm_tol, l2_perm_tol)
+            call initialize_species(species_data(lc), genus_name,              &
+                taxonomic_name, unique_id, common_name, shade_tol,             &
+                lownutr_tol, stress_tol, age_tol, dry_tol, flood_tol,          &
+                perm_tol, org_tol, bark_thick, fire_regen, max_age,            &
+                max_diam, max_ht, wood_bulk_dens, rootdepth, leafdiam_a,       &
+                leafarea_c, deg_day_min, deg_day_opt, deg_day_max,             &
+                seedling_surv, invader, seed_num, sprout_num, layering,        &
+                seed_surv, s, g, beta, conifer, litter_class, recr_age,        &
+                dbh_min, l1_perm_tol, l2_perm_tol)
         enddo
 
 
