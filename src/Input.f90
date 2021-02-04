@@ -318,7 +318,7 @@ contains
         !
 
         ! Data dictionary: calling arguments
-        real, dimension(LIT_LEVS, 10), intent(out) :: litter_pars ! Litter parameters array
+        real, dimension(18, 10), intent(out) :: litter_pars ! Litter parameters array
 
         ! Data dictionary: local variables
         character(len = MAX_NLEN) :: litter_name ! Litter name
@@ -346,7 +346,7 @@ contains
         do i = 1, LIT_LEVS
             litter_pars(i, 1) = i
         end do
-
+		
         !check if any are INVALID
         if (any(litter_pars .eq. RNVALID)) then
             call fatal_error('Error in litter parameters file, RNVALID')
@@ -887,7 +887,7 @@ contains
         real                           :: beta            ! Growth parameter
         real                           :: dbh_min         ! Mininum DBH growth (cm)
         real                           :: l1_perm_tol     ! Tolerant growth response to perm
-	real                           :: l2_perm_tol    ! Intolerant growth response to perm
+	    real                           :: l2_perm_tol     ! Intolerant growth response to perm
         logical                        :: conifer         ! Is species a conifer?
         logical                        :: layering        ! Can species reproduce by layering?
         integer                        :: num_all_species ! Total number of species in file
@@ -950,8 +950,8 @@ contains
             recr_age,                                                          &
             seed_surv,                                                         &
             seedling_surv,                                                     &
-            l1_perm_tol,						       &
-            l2_perm_tol,						       &
+            l1_perm_tol,						       						   &
+            l2_perm_tol,						      						   &
             unique_id
 
             ! Set conifer and layering

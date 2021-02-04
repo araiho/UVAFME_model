@@ -30,7 +30,7 @@ contains
         !
 
         ! Data dictionary: calling arguments
-        character(len = *), optional, intent(in) :: filelist ! File list filename
+        character(len = *)           :: filelist
 
         ! Data dictonary: local variables
         character(len = MAX_FILE) :: input_directory    ! Input directory name
@@ -63,32 +63,24 @@ contains
         speclist_directory = 'input_data'
 
         ! If filelist present, check that it exists
-        if (present(filelist)) then
+		inquire(file = filelist, exist = file_exists)
 
-            inquire(file = filelist, exist = file_exists)
+		if (.not. file_exists) then
+			write(*, *) 'File list file not specified, using defaults'
+		else
+			nunit = unit_number()
+			open(nunit, file = filelist, status = 'unknown', iostat = ios)
+			if (ios .eq. 0) then
+				read(nunit, filenames, iostat = ios)
+				if (ios .ne. 0) then
+					write(*, *) 'Error reading ', filelist, ': ', ios,         &
+						' Using defaults'
+				end if
+			endif
 
-            if (.not. file_exists) then
-                write(message, '(A, A)') "Can't file specified file list: ",   &
-                    filelist
-               call fatal_error(message)
-            else
-                ! File list exists - get the unit number
-                nunit = unit_number()
-                open(nunit, file = filelist, status = 'unknown',               &
-                    iostat = ios)
-                if (ios .eq. 0) then
-                    read(nunit, filenames, iostat = ios)
-                    if (ios .ne. 0) then
-                        write(message, '(A, A)') "Error reading ", filelist
-                        call fatal_error(message)
-                    end if
-                endif
-                close(nunit)
-            end if
-        else
-            write(message, '(A)') "File list not specified - using defaults."
-            call warning(message)
-        endif
+			close(nunit)
+
+		endif
 
         ! Trim directory names of whitespace and set to global values
         inputdir = trim(input_directory)

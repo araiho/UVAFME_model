@@ -164,7 +164,7 @@ contains
         self%soil%swe = 0.0
 
         ! Litter initialization
-        do i = 1, LIT_LEVS
+        do i = 1, 18
             self%soil%litter(i) = 0.0
         end do
         self%soil%cohorts = 0.0

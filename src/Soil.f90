@@ -29,8 +29,8 @@ module Soil
     ! Define soil type
     type SoilData
         real, dimension(NCOH_MAX, NCOH_CHR) :: cohorts       ! Array of decaying cohorts of litter
-        real, dimension(LIT_LEVS)           :: litter        ! Fresh litter content (t/ha)
-        real, dimension(LIT_LEVS+1, 2)      :: forest_litter ! Total forest litter (t/ha)
+        real, dimension(18)           :: litter        ! Fresh litter content (t/ha)
+        real, dimension(18+1, 2)      :: forest_litter ! Total forest litter (t/ha)
         real, dimension(2)                  :: z_drain       ! Drainage capacity (volumetric)
         real, dimension(2)                  :: sat           ! Saturation capacity (volumetric)
         real, dimension(2)                  :: fc            ! Field capacity (volumetric)
@@ -897,7 +897,7 @@ module Soil
             max(1.0*(1.0-1.25*flooddays)**2.0, 0.1))/2.0
 
         ! Populate cohort array with new cohorts and cohort properties
-        do i = 1, LIT_LEVS
+        do i = 1, 18
             if (i .ne. IWDW) then
                 ! Add in parameters for everything but well-decayed wood
                 if (soil%litter(i) .gt. epsilon(1.0)) then
@@ -1223,7 +1223,7 @@ module Soil
         soil%ncohort = nc
 
         ! Set fresh litter to 0.0
-        do i = 1, LIT_LEVS
+        do i = 1, 18
             soil%litter(i) = 0.0
         end do
 
