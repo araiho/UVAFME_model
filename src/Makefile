@@ -13,7 +13,7 @@ LIBS =
 
 F90 =  gfortran
 
-FCFLAGS = -CB -g -traceback -fp-model strict -warn unused
+#FCFLAGS = -CB -g -traceback -fp-model strict -warn unused
 #OPT = -g -traceback -O2 -axcore-avx2 -xavx -align array64byte -ipo 
 
 F90FLAGS = $(DBG) $(OPT)

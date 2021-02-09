@@ -43,7 +43,7 @@ module Constants
     integer, parameter :: MAX_PATH = 256       ! Maximum path length
 
     ! Array-related constants
-    integer, parameter :: LIT_LEVS = 20 ! Number of litter classes
+    integer, parameter :: LIT_LEVS = 18 ! Number of litter classes
     integer, parameter :: M_TYPES = 7   ! Number of mortality types
     integer, parameter :: FC_NUM = 5    ! Number of environmental stressors
     integer, parameter :: IROOT = 13    ! Array location of roots in litter array

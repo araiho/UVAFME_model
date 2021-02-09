@@ -318,7 +318,7 @@ contains
         !
 
         ! Data dictionary: calling arguments
-        real, dimension(18, 10), intent(out) :: litter_pars ! Litter parameters array
+        real, dimension(LIT_LEVS, 10), intent(out) :: litter_pars ! Litter parameters array
 
         ! Data dictionary: local variables
         character(len = MAX_NLEN) :: litter_name ! Litter name
