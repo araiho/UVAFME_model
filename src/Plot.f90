@@ -21,7 +21,7 @@ implicit none
         type(TreeData),    dimension(:),   allocatable :: trees        ! Array of tree objects
         type(TreeData),    dimension(:),   allocatable :: deadtrees    ! Array of dead tree objects
         type(SoilData)                                 :: soil         ! Soil object
-        real,              dimension(:,:), allocatable :: cells        ! 2D array of plant locations
+        integer,           dimension(:,:), allocatable :: cells        ! 2D array of plant locations
         real,              dimension(:),   allocatable :: avail_spec   ! Species "available" for regeneration
         real,              dimension(:),   allocatable :: seedbank     ! Species-specific seedbank (seeds/m2)
         real,              dimension(:),   allocatable :: seedling     ! Species-specific seedling bank (seedlings/m2)
